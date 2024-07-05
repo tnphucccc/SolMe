@@ -2,7 +2,6 @@ import "dotenv/config";
 import request from "request";
 import axios from "axios";
 
-
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -31,18 +30,6 @@ const getWebhook = (req, res) => {
 };
 
 const postWebhook = async (req, res) => {
-  // Create a get started button
-  try {
-    const res = await axios.post(`https://graph.facebook.com/v2.6/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`, {
-        get_started: {
-            payload: "start_msg"
-        }
-    })
-    console.log(res.data)
-  }
-  catch (err) {
-    console.log(err)
-  }
   let body = req.body;
 
   console.log(`\u{1F7EA} Received webhook:`);
@@ -139,12 +126,13 @@ function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   if (payload === "yes") {
     response = { text: "Thanks!" };
-    callSendAPI(sender_psid, response);
   } else if (payload === "no") {
     response = { text: "Oops, try sending another image." };
-    callSendAPI(sender_psid, response);
+  } else if (payload === "start_btn") { // When the use click the start button
+    response = { text: "Welcome to SolMe, a powerful chatbot help you work with blockchain"}
   }
   // Send the message to acknowledge the postback
+  callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
