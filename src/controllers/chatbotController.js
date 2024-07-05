@@ -146,12 +146,12 @@ function handlePostback(sender_psid, received_postback) {
   } else if (payload === "no") {
     response = { text: "Oops, try sending another image." };
   } 
-  // else if (payload === "start_msg") {
-  //   // When the use click the start button
-  //   response = {
-  //     text: "Welcome to SolMe, a powerful chatbot help you work with blockchain",
-  //   };
-  // }
+  else if (payload === "start_msg") {
+    // When the use click the start button
+    response = {
+      text: "Welcome to SolMe, what do you want to do?",
+    };
+  }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
