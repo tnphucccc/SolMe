@@ -209,12 +209,11 @@ async function callSendAPI(sender_psid, response) {
   //   }
   // );
   try {
-    const res = await axios.post(
+    await axios.post(
       `https://graph.facebook.com/v2.6/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
       request_body
     );
     console.log("Data sent successfully");
-    console.dir(res.data, Infinity);
   } catch (err) {
     console.log("Unable to send message", err);
   }
