@@ -17,6 +17,33 @@ axios.post("https://graph.facebook.com/v2.6/me/messenger_profile?access_token=<P
   }
   ]
 }) 
+
+To enable a command in the chatbot
+axios.post("https://graph.facebook.com/v2.6/me/messenger_profile?access_token=<PAGE_ACCESS_TOKEN>", {
+"commands": [
+  {
+    "locale": "default",
+    "commands": [
+      {
+          "name": "create",
+          "description": "Create a wallet for a customer"
+      },
+      {
+          "name": "transact",
+          "description": "Send Sol coin to other wallet"
+      },
+      {
+          "name": "balance",
+          "description": "Check the wallet balance"
+      },
+      {
+          "name": "history",
+          "description": "Check the transaction history"
+      }
+    ]
+  }
+]
+}) 
 */
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
