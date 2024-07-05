@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config"
 
 let getHomePage = (req, res) => {
   return res.send("Hello Messenger Chatbot");
@@ -46,8 +46,8 @@ const postWebhook = (req, res) => {
   }
 };
 
-module.exports = {
-  getHomePage: getHomePage,
-  getWebhook: getWebhook,
-  postWebhook: postWebhook,
+export {
+  getHomePage,
+  getWebhook,
+  postWebhook,
 };
