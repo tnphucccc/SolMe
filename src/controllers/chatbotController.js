@@ -2,6 +2,23 @@ import "dotenv/config";
 import request from "request";
 import axios from "axios";
 
+/*
+To create an add button, you can do this
+axios.post("https://graph.facebook.com/v2.6/me/messenger_profile?access_token=<PAGE_ACCESS_TOKEN>", {
+  "get_started": {"payload": "payload_name"}
+}) 
+
+To create a greeting message before clicking the button
+axios.post("https://graph.facebook.com/v2.6/me/messenger_profile?access_token=<PAGE_ACCESS_TOKEN>", {
+  "greeting":[
+  {
+    "locale":"default",
+    "text":"Hello {{user_first_name}}!"
+  }
+  ]
+}) 
+*/
+
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -128,12 +145,13 @@ function handlePostback(sender_psid, received_postback) {
     response = { text: "Thanks!" };
   } else if (payload === "no") {
     response = { text: "Oops, try sending another image." };
-  } else if (payload === "start_msg") {
-    // When the use click the start button
-    response = {
-      text: "Welcome to SolMe, a powerful chatbot help you work with blockchain",
-    };
-  }
+  } 
+  // else if (payload === "start_msg") {
+  //   // When the use click the start button
+  //   response = {
+  //     text: "Welcome to SolMe, a powerful chatbot help you work with blockchain",
+  //   };
+  // }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
