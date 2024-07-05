@@ -211,7 +211,7 @@ async function callSendAPI(sender_psid, response) {
   try {
     await axios.post(
       `https://graph.facebook.com/v2.6/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
-      request_body
+      { request_body }
     );
     console.log("Data sent successfully");
   } catch (err) {
