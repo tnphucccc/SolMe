@@ -145,8 +145,7 @@ function handlePostback(sender_psid, received_postback) {
     response = { text: "Thanks!" };
   } else if (payload === "no") {
     response = { text: "Oops, try sending another image." };
-  } 
-  else if (payload === "start_msg") {
+  } else if (payload === "start_msg") {
     // When the use click the start button
     response = {
       text: "Welcome to SolMe, what do you want to do?",
@@ -163,6 +162,7 @@ function callSendAPI(sender_psid, response) {
     recipient: {
       id: sender_psid,
     },
+    sender_action: "typing_on",
     message: response,
   };
 
