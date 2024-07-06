@@ -183,7 +183,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-async function callSendAPI(sender_psid, response) {
+function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     recipient: {
