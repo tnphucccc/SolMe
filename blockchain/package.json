@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "start": "ts-node main.ts",
+    "test" : "ts-node test.ts"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.94.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "name": "SolMe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/tnphucccc/SolMe",
+  "author": "tpSpace <ITCSIU21081@student.hcmiu.edu.vn>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.10"
+  }
+}
