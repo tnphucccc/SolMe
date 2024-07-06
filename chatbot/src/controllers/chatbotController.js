@@ -192,6 +192,28 @@ function callSendAPI(sender_psid, response) {
     message: response,
   };
 
+  // Display the on-typing
+  request(
+    {
+      uri: "https://graph.facebook.com/v2.6/me/messages",
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: {
+        recipient: {
+          id: sender_psid,
+        },
+        sender_action: "typing_on",
+      },
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("Displaying on typing effect");
+      } else {
+        console.error("Some error occurs");
+      }
+    }
+  );
+
   // Send the HTTP request to the Messenger Platform
   request(
     {
