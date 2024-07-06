@@ -1,4 +1,4 @@
-const { Bot, GrammyError, HttpError } = require("grammy");
+const { Bot } = require("grammy");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -8,14 +8,21 @@ const bot = new Bot("7471327979:AAERKOHlsSqMFqe_8kNTaXbJcFxRhREH0ZA"); // <-- pu
 // You can now register listeners on your bot object `bot`.
 // grammY will call the listeners when users send messages to your bot.
 
-
 // Handle the /start command.
 bot.command("start", (ctx) => ctx.reply("Welcome! Up and running."));
 // Handle other messages.
 bot.on("message:text", async (ctx) => {
+  console.log("message receive");
   // Check for specific keywords
-  if (ctx.message.text.includes("help")) {
-    ctx.reply("How can I help you?");
+  if (ctx.message.text.includes("/help")) {
+    ctx.reply(
+      "<b>List of commands</b>\n\
+\t\t\t\t<b style='color:blue'>/new_wallet:</b> create a new wallet for user\n\
+\t\t\t\t<b style='color:blue'>/transact @username amount:</b> send a specific amount of money to user\n \
+\t\t\t\t<b style='color:blue'>/balance:</b> get the user's balance from their wallet\n \
+\t\t\t\t<b style='color:blue'>/history:</b> get the user's transaction history\n \ ",
+      { parse_mode: "HTML" }
+    );
   } else if (ctx.message.text == "/count") {
     try {
       const memberCount = await ctx.api.getChatMemberCount(ctx.chat.id);
@@ -59,12 +66,21 @@ bot.on("message:text", async (ctx) => {
   }
 });
 
+// bot.catch((err) => {
+//   const ctx = err.ctx;
+//   console.error(`Error while handling update ${ctx.update.update_id}:`);
+//   const e = err.error;
+//   if (e instanceof GrammyError) {
+//     console.error("Error in request:", e.description);
+//   } else if (e instanceof HttpError) {
+//     console.error("Could not contact Telegram:", e);
+//   } else {
+//     console.error("Unknown error:", e);
+//   }
+// });
 
 // Now that you specified how to handle messages, you can start your bot.
 // This will connect to the Telegram servers and wait for messages.
 console.log("Starting the bot");
 // Start the bot.
-bot.start({
-  // Make sure to specify the desired update types
-  allowed_updates: ["chat_member", "message"],
-});
+bot.start();
