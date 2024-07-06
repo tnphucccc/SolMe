@@ -9,7 +9,7 @@ import { displayBalance, getTransactionHistory, makeTransaction } from "./main";
 // );
 // displayBalance("DRPbFNor7BWxQdBANCU55MbJXefDDKqGPEDvYjd4HDqG");
 
-//getTransactionHistory("DRPbFNor7BWxQdBANCU55MbJXefDDKqGPEDvYjd4HDqG");
+// getTransactionHistory("DRPbFNor7BWxQdBANCU55MbJXefDDKqGPEDvYjd4HDqG");
 // displayBalance("DRPbFNor7BWxQdBANCU55MbJXefDDKqGPEDvYjd4HDqG");
 // displayBalance("DRPbFNor7BWxQdBANCU55MbJXefDDKqGPEDvYjd4HDqG");
 // makeTransaction(
@@ -17,7 +17,7 @@ import { displayBalance, getTransactionHistory, makeTransaction } from "./main";
 //   "DRPbFNor7BWxQdBANCU55MbJXefDDKqGPEDvYjd4HDqG",
 //   2.3
 // );
-displayBalance("CoT2U8WaGhRytk8knRkUxwd2K41MhoCK31m6iJ4nDU59");
+// displayBalance("CoT2U8WaGhRytk8knRkUxwd2K41MhoCK31m6iJ4nDU59");
 
 //  Make a transaction (replace with valid secret key and destination wallet address)
 
@@ -44,4 +44,4 @@ async function testTransaction() {
   await displayBalance(receiverPublicKey);
 }
 
-testTransaction();
+// testTransaction();

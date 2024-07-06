@@ -19,24 +19,44 @@ export function createWallet() {
 }
 
 // Function to show the transaction history of a wallet
-export async function getTransactionHistory(walletAddress: string) {
+export type TransactionHistory = {
+  signature: string;
+  slot: number | undefined;
+  result: string;
+  fee: number | undefined;
+};
+
+export async function getTransactionHistory(
+  walletAddress: string
+): Promise<TransactionHistory[]> {
   const connection = new Connection(clusterApiUrl("testnet"));
   const publicKey = new PublicKey(walletAddress);
   const transactionSignatures = await connection.getSignaturesForAddress(
     publicKey
   );
 
+  const history: TransactionHistory[] = [];
+
   console.log(`Transaction history for ${walletAddress}:`);
   for (const signatureInfo of transactionSignatures) {
     const transaction = await connection.getTransaction(
       signatureInfo.signature
     );
-    console.log(`Signature: ${signatureInfo.signature}`);
-    console.log(`Slot: ${transaction?.slot}`);
-    console.log(`Result: ${transaction?.meta?.err ? "Error" : "Success"}`);
-    console.log(`Fee: ${transaction?.meta?.fee}`);
+    const transactionHistory: TransactionHistory = {
+      signature: signatureInfo.signature,
+      slot: transaction?.slot,
+      result: transaction?.meta?.err ? "Error" : "Success",
+      fee: transaction?.meta?.fee,
+    };
+    history.push(transactionHistory);
+    console.log(`Signature: ${transactionHistory.signature}`);
+    console.log(`Slot: ${transactionHistory.slot}`);
+    console.log(`Result: ${transactionHistory.result}`);
+    console.log(`Fee: ${transactionHistory.fee}`);
     console.log("--------------------------------------");
   }
+
+  return history;
 }
 
 // Function to make a transaction
@@ -94,8 +114,10 @@ export async function displayBalance(walletAddress: string) {
 
     // Display the balance
     console.log(`Balance for wallet ${walletAddress}: ${balanceInSol} SOL`);
+    return balanceInSol;
   } catch (error) {
     console.error("Error fetching balance:", error);
+    return error;
   }
 }
 
