@@ -86,7 +86,7 @@ export async function displayBalance(walletAddress: string) {
 }
 
 // Example usage
-(async () => {
+async function main() {
   // Create a new wallet
   const { publicKey, secretKey } = createWallet();
   console.log("Public Key:", publicKey);
@@ -101,4 +101,8 @@ export async function displayBalance(walletAddress: string) {
   // );
   // const toWalletAddress = "DestinationWalletAddressHere";
   // await makeTransaction(fromSecretKey, toWalletAddress, 1); // 1 SOL
-})();
+}
+
+if (require.main === module) {
+  main();
+}
