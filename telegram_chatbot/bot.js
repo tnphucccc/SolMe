@@ -1,4 +1,4 @@
-const { Bot } = require("grammy");
+const { Bot, InlineKeyboard } = require("grammy");
 const dotenv = require("dotenv");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -42,6 +42,27 @@ bot.command("help", (ctx) => {
   );
 });
 
+// Function to send a message with an inline button
+bot.command("test", (ctx) => {
+  const keyboard = new InlineKeyboard()
+  .text("Activate Bot", "activate_bot")
+  .text("Test2", "test2");
+
+  ctx.reply("Click the button below to activate the bot:", {
+    reply_markup: keyboard,
+  });
+});
+
+// Handle callback queries when the button is clicked
+bot.on("callback_query:data", async (ctx) => {
+  if (ctx.callbackQuery.data === "activate_bot") {
+    ctx.reply("You choose activate bot");
+  }
+  else if (ctx.callbackQuery.data === "test2") {
+    ctx.reply("You choose test2");
+  }
+});
+
 bot.command("create_wallet", (ctx) => {
   const userid = ctx.from.id;
   ctx.reply(
@@ -70,7 +91,7 @@ bot.command("transact", (ctx) => {
       });
     } else {
       ctx.reply(
-        `Make transaction to user ${ctx.message.text.substring(
+        `Transacts ${splitEntity[2]} to user ${ctx.message.text.substring(
           ctx.message.entities[1].offset,
           ctx.message.entities[1].offset + ctx.message.entities[1].length
         )}`,
