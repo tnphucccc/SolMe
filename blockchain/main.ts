@@ -40,15 +40,28 @@ export async function getTransactionHistory(walletAddress: string) {
 }
 
 // Function to make a transaction
+/**
+ * Function to make a transaction
+ * @param fromSecretKeyString - The secret key of the sender as a hex string
+ * @param toWalletAddress - The public key (address) of the recipient
+ * @param amount - The amount to send (in SOL)
+ * @returns The transaction signature
+ */
 export async function makeTransaction(
-  fromSecretKey: Uint8Array,
+  fromSecretKeyString: string,
   toWalletAddress: string,
   amount: number
 ) {
   const connection = new Connection(clusterApiUrl("testnet"));
+
+  // Convert the secret key from a hex string to a Uint8Array
+  const fromSecretKey = Uint8Array.from(
+    Buffer.from(fromSecretKeyString, "hex")
+  );
   const fromKeypair = Keypair.fromSecretKey(fromSecretKey);
   const toPublicKey = new PublicKey(toWalletAddress);
 
+  // Create the transaction
   const transaction = new Transaction().add(
     SystemProgram.transfer({
       fromPubkey: fromKeypair.publicKey,
@@ -57,6 +70,7 @@ export async function makeTransaction(
     })
   );
 
+  // Send and confirm the transaction
   const signature = await sendAndConfirmTransaction(connection, transaction, [
     fromKeypair,
   ]);
