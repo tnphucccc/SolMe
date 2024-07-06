@@ -1,15 +1,16 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import router from './route/userApi';
+import dotenv from 'dotenv';
 
-const express = require('express');
-const { default: mongoose } = require('mongoose');
-require('dotenv').config()
+dotenv.config();
+
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+app.use('/', router);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI as string)
   .then(() => {
     app.listen(process.env.PORT, () => {
       console.log("Server is listening on port", process.env.PORT);
