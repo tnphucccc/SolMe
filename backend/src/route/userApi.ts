@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { displayBalance, createWallet,getTransactionHistory,TransactionHistory } from '../../../blockchain/main';
+import { displayBalance, createWallet,getTransactionHistory,makeTransaction } from '../../../blockchain/main';
 import User from '../model/User'; // Ensure this path is correct
 
 
@@ -38,8 +38,8 @@ router.get("/:userId/transact", async (req: Request, res: Response) => {
     if (!checkRUser) return res.json({ success: false, message: "The username is outdated, please update" });
     if (!checkSUser || !checkSUser.publicKey) return res.json({ success: false, message: "The sender doesn't have a wallet, please create one" });
     if (!checkRUser.publicKey) return res.json({ success: false, message: "The receiver doesn't have a wallet, please create one" });
-    // const response = await axios.get('URL'); // Specify the actual URL
-    res.json({ success: true, message: "Your process is completed" });
+    const transaction = await makeTransaction(checkSUser.privateKey as string,checkRUser.publicKey as  string,Number(amount) as number)
+    res.json({ success: true, message: `${checkSUser.name} has sent ${amount} SOL to ${checkRUser.name}`,signature: transaction });
   } catch (e) {
     res.status(500).json({ message: "Something wrong" });
   }
