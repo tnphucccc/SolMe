@@ -38,7 +38,8 @@ bot.command("help", (ctx) => {
 \t\t\t\t<b style='color:blue'>/create_wallet:</b> create a new wallet for user\n\
 \t\t\t\t<b style='color:blue'>/transact @username amount:</b> send a specific amount of money to user\n \
 \t\t\t\t<b style='color:blue'>/balance:</b> get the user's balance from their wallet\n \
-\t\t\t\t<b style='color:blue'>/history:</b> get the user's transaction history\n  ",
+\t\t\t\t<b style='color:blue'>/history:</b> get the user's transaction history\n \
+\t\t\t\t<b style='color:blue'>/update_wallet:</b> update username to match with our database\n  ",
     { parse_mode: "HTML", reply_parameters: { message_id: ctx.msg.message_id } }
   );
 });
@@ -136,9 +137,9 @@ bot.command("transact", async (ctx) => {
             splitEntity[2]
           }`
         );
-        console.log(res.data)
+        console.log(res.data);
         if (!res.data.success) {
-          console.log("Error occur")
+          console.log("Error occur");
           ctx.reply(res.data.message, {
             reply_parameters: { message_id: ctx.msg.message_id },
           });
@@ -187,10 +188,29 @@ bot.command("balance", async (ctx) => {
   }
 });
 
-bot.command("history", (ctx) => {
-  ctx.reply(`Get history from ${ctx.from.id} - ${ctx.from.username}`, {
-    reply_parameters: { message_id: ctx.msg.message_id },
-  });
+function formattedHistory(history) {
+  return `Signature: ${history.signature}\n\
+Transaction Timestamp: ${history.slot}\n\
+Result: ${history.result}\n\
+Gas Fee: ${history.fee}\n\n\n`;
+}
+
+bot.command("history", async (ctx) => {
+  try {
+    const res = await axios.get(`http://localhost:8000/${ctx.from.id}/history`);
+    if (res.data.success) {
+      const history_list = res.data.data;
+      let reply_message = ""
+      history_list.forEach(history => reply_message += formattedHistory(history));
+      ctx.reply(reply_message, {
+        reply_parameters: { message_id: ctx.msg.message_id },
+      });
+    }
+  } catch (err) {
+    ctx.reply("Fail to get your transaction history, please try again", {
+      reply_parameters: { message_id: ctx.msg.message_id },
+    });
+  }
 });
 
 bot.command("ask_ai", async (ctx) => {
