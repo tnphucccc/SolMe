@@ -118,7 +118,7 @@ router.get("/:userId/history", async (req: Request, res: Response) => {
     if (getUser) {
        const getHistory = await getTransactionHistory(getUser.publicKey as string)
         console.log(getHistory)
-      res.json({ success: true, message: "Your process is completed" });
+      res.json({ success: true, data: getHistory });
     } else {
       res.status(404).json({ success: false, message: "User not found" });
     }
